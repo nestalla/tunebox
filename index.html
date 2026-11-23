@@ -7,306 +7,379 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Tunebox">
-<meta name="theme-color" content="#121110">
+<meta name="theme-color" content="#000000">
 <title>Tunebox</title>
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' fill='%23ff5a36'/%3E%3Ccircle cx='70' cy='122' r='26' fill='%23121110'/%3E%3Crect x='88' y='38' width='14' height='86' fill='%23121110'/%3E%3Cpath d='M102 38c20 6 34 16 38 36-12-10-24-12-38-12z' fill='%23121110'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' fill='%23ff5a36'/%3E%3Ccircle cx='70' cy='122' r='26' fill='%23fff'/%3E%3Crect x='88' y='38' width='14' height='86' fill='%23fff'/%3E%3Cpath d='M102 38c20 6 34 16 38 36-12-10-24-12-38-12z' fill='%23fff'/%3E%3C/svg%3E">
 <style>
-:root{color-scheme:light dark;--bg:light-dark(#faf7f2,#121110);--card:light-dark(#fff,#1d1b19);--line:light-dark(#e8e2d8,#2c2926);--ink:light-dark(#1b1a17,#f3efe8);--mute:light-dark(#6f6a62,#a49d93);--acc:#ff5a36;--acc-ink:#fff}
+/*
+VOICE: an iPhone music player at night — quiet, black, one warm accent.
+IDEA: the Now Playing card you hold in your hand, with the song's own art lighting the room.
+PICTURE: the playing video framed as a square record sleeve over a blurred glow of its artwork.
+COLOUR and TYPE: true black, iOS greys, coral #ff5a36; the phone's own system font.
+LAYOUT: large titles, inset lists, mini player above a blurred tab bar, full-screen sheet.
+*/
+:root{color-scheme:dark;--bg:#000;--card:#1c1c1e;--card2:#2c2c2e;--sep:#38383a;--ink:#fff;--mute:#8e8e93;--acc:#ff5a36;--tab:64px;--mini:64px}
 *{box-sizing:border-box;min-width:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Outfit,system-ui,-apple-system,sans-serif;overflow-x:clip}
-button,input{font:inherit;color:inherit}
-button{cursor:pointer;border:0;background:none}
-:focus-visible{outline:3px solid var(--acc);outline-offset:2px;border-radius:8px}
-header{position:sticky;top:0;z-index:5;background:var(--bg);padding:calc(env(safe-area-inset-top) + 14px) 18px 10px}
-h1{margin:0;font-size:32px;line-height:1.05;font-weight:800;letter-spacing:-.02em}
-h1 span{color:var(--acc)}
-.top{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.icon{width:44px;height:44px;display:grid;place-items:center;border-radius:50%}
-.icon svg{width:24px;height:24px}
-.search{display:flex;gap:8px;margin-top:12px}
-.search input{flex:1;height:48px;border-radius:14px;border:1px solid var(--line);background:var(--card);padding:0 16px;font-size:16px}
-.btn{height:48px;padding:0 18px;border-radius:14px;background:var(--acc);color:var(--acc-ink);font-weight:700;white-space:nowrap}
-.btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line)}
-.btn.sm{height:40px;padding:0 14px;font-size:15px}
-main{padding:4px 18px calc(env(safe-area-inset-bottom) + 330px)}
-h2{font-size:22px;margin:18px 0 8px;font-weight:700}
-.note{color:var(--mute);font-size:14px;margin:6px 0}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.35 -apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,"Segoe UI",Roboto,sans-serif;overflow-x:clip;-webkit-font-smoothing:antialiased}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;padding:0}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:8px}
+svg{display:block}
+.icon{width:44px;height:44px;display:grid;place-items:center;border-radius:50%;flex:none}
+.icon svg{width:22px;height:22px}
+
+/* header */
+header{position:sticky;top:0;z-index:5;padding:calc(env(safe-area-inset-top) + 8px) 16px 8px;background:rgba(0,0,0,.82);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px)}
+.hrow{display:flex;align-items:flex-end;justify-content:space-between;gap:8px;min-height:52px}
+h1{margin:0;font-size:34px;line-height:1.1;font-weight:800;letter-spacing:-.02em}
+.hbtn{color:var(--acc)}
+.sbox{display:flex;align-items:center;gap:8px;margin-top:8px;background:var(--card);border-radius:12px;padding:0 10px;height:40px}
+.sbox svg{width:18px;height:18px;color:var(--mute);flex:none}
+.sbox input{flex:1;background:none;border:0;outline:0;font-size:17px;height:40px}
+.sbox input::placeholder{color:var(--mute)}
+main{padding:4px 16px calc(var(--tab) + var(--mini) + env(safe-area-inset-bottom) + 240px)}
+h2{font-size:22px;font-weight:700;margin:22px 0 8px}
+.note{color:var(--mute);font-size:14px;margin:4px 0 10px}
+
+/* rows */
 .list{list-style:none;margin:0;padding:0}
-.row{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)}
-.row img{width:64px;height:48px;object-fit:cover;border-radius:8px;background:var(--line);flex:none}
-.row .meta{flex:1;cursor:pointer}
-.row .t{font-weight:500;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.25}
-.row .c{color:var(--mute);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row{display:flex;align-items:center;gap:12px;padding:6px 0}
+.row img{width:56px;height:56px;object-fit:cover;border-radius:8px;background:var(--card);flex:none}
+.row .meta{flex:1;cursor:pointer;padding:6px 0;border-bottom:.5px solid var(--sep);align-self:stretch;display:flex;flex-direction:column;justify-content:center}
+.row:last-child .meta{border-bottom:0}
+.t{font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.c{color:var(--mute);font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .row.on .t{color:var(--acc)}
-.row .icon{width:40px;height:40px;flex:none;color:var(--mute)}
+.row .icon{color:var(--mute);width:40px;height:40px}
 .row .icon.fav{color:var(--acc)}
-.pl{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--line);border-radius:16px;background:var(--card);margin-bottom:10px;cursor:pointer}
-.pl .art{width:56px;height:56px;border-radius:12px;background:var(--acc);display:grid;place-items:center;color:#fff;font-weight:800;font-size:22px;flex:none;overflow:hidden}
-.pl .art img{width:100%;height:100%;object-fit:cover}
-.pl .meta{flex:1}
-.bar{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 12px}
-.empty{padding:40px 10px;text-align:center;color:var(--mute)}
-.empty b{display:block;color:var(--ink);font-size:18px;margin-bottom:4px}
-/* tabs */
-nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:7;display:grid;grid-template-columns:repeat(3,1fr);background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
-nav.tabs button{height:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:12px;color:var(--mute)}
-nav.tabs button svg{width:24px;height:24px}
+.pills{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0 8px}
+.pill{height:48px;border-radius:12px;background:var(--card);color:var(--acc);font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px}
+.pill svg{width:18px;height:18px}
+.empty{padding:56px 16px;text-align:center;color:var(--mute)}
+.empty b{display:block;color:var(--ink);font-size:20px;margin-bottom:6px}
+
+/* playlists grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px;margin-top:8px}
+.tile{cursor:pointer}
+.tile .art{aspect-ratio:1;border-radius:10px;background:linear-gradient(145deg,#3a3a3c,#1c1c1e);overflow:hidden;display:grid;place-items:center;color:var(--mute)}
+.tile .art img{width:100%;height:100%;object-fit:cover}
+.tile .art svg{width:44px;height:44px}
+.tile .t{margin-top:6px;font-size:15px}
+.tile.new .art{border:1.5px dashed var(--sep);background:none;color:var(--acc)}
+.phead{text-align:center;padding-top:8px}
+.phead .art{width:min(62vw,240px);aspect-ratio:1;margin:0 auto 14px;border-radius:12px;overflow:hidden;background:var(--card);box-shadow:0 20px 50px rgba(0,0,0,.6)}
+.phead .art img{width:100%;height:100%;object-fit:cover}
+.phead h2{margin:0;font-size:24px}
+.back{color:var(--acc);display:flex;align-items:center;gap:2px;height:44px;font-size:17px}
+.back svg{width:22px;height:22px}
+
+/* tab bar */
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;display:grid;grid-template-columns:repeat(3,1fr);background:rgba(18,18,18,.86);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);border-top:.5px solid var(--sep);padding-bottom:env(safe-area-inset-bottom);height:calc(var(--tab) + env(safe-area-inset-bottom))}
+nav.tabs button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11px;font-weight:500;color:var(--mute)}
+nav.tabs svg{width:26px;height:26px}
 nav.tabs button[aria-selected=true]{color:var(--acc)}
-/* player */
-#player-wrap{position:fixed;left:0;right:0;bottom:calc(58px + env(safe-area-inset-bottom));z-index:6;background:var(--card);border-top:1px solid var(--line);box-shadow:0 -8px 30px rgba(0,0,0,.12);display:none}
-#player-wrap.show{display:block}
-.vid{position:relative;width:100%;max-width:520px;margin:0 auto;aspect-ratio:16/9;background:#000}
-.vid>div,.vid iframe{position:absolute;inset:0;width:100%;height:100%}
-#player-wrap.mini .vid{width:200px;margin:0;float:left;margin-right:12px}
-.pctl{padding:10px 16px 12px;max-width:520px;margin:0 auto}
-#player-wrap.mini .pctl{padding:8px 12px 8px 0;overflow:hidden}
-.now{font-weight:700;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.nowc{color:var(--mute);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.time{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--mute);font-variant-numeric:tabular-nums;margin-top:6px}
-.time input{flex:1;accent-color:var(--acc);height:24px}
-.ctl{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
-.ctl .icon.big{width:56px;height:56px;background:var(--acc);color:#fff}
-.ctl .icon.big svg{width:30px;height:30px}
-.ctl .icon.lit{color:var(--acc)}
-#player-wrap.mini .time,#player-wrap.mini .ctl .side{display:none}
-#player-wrap.mini .ctl{justify-content:flex-start;gap:4px}
-#player-wrap.mini .ctl .icon.big{width:44px;height:44px}
-.badge{font-size:10px;font-weight:800;position:absolute;margin:16px 0 0 18px}
-/* sheet */
-.scrim{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:20;display:none;align-items:flex-end;justify-content:center}
+
+/* mini player */
+#mini{position:fixed;left:8px;right:8px;bottom:calc(var(--tab) + env(safe-area-inset-bottom) + 8px);z-index:29;height:var(--mini);border-radius:14px;background:rgba(44,44,46,.92);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);box-shadow:0 10px 30px rgba(0,0,0,.5);display:none;align-items:center;gap:10px;padding:0 6px 0 8px}
+body.has-song #mini{display:flex}
+#mini img{width:48px;height:48px;border-radius:8px;object-fit:cover;background:var(--card2);flex:none}
+#mini .mm{flex:1;cursor:pointer}
+#mini .icon svg{width:26px;height:26px}
+
+/* video box: always visible while playing (YouTube rule: 200x200 minimum) */
+#vbox{position:fixed;z-index:41;width:200px;height:200px;right:12px;bottom:calc(var(--tab) + var(--mini) + env(safe-area-inset-bottom) + 20px);border-radius:14px;overflow:hidden;background:#000;box-shadow:0 14px 40px rgba(0,0,0,.65);display:none;transition:all .35s cubic-bezier(.2,.8,.2,1)}
+body.has-song #vbox{display:block}
+#vbox>div,#vbox iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+body.np #vbox{width:var(--vs);height:var(--vs);right:calc(50% - var(--vs)/2);bottom:calc(100% - env(safe-area-inset-top) - 64px - var(--vs));border-radius:18px;box-shadow:0 30px 70px rgba(0,0,0,.7)}
+:root{--vs:min(84vw,340px,42vh)}
+
+/* now playing sheet */
+#np{position:fixed;inset:0;z-index:40;background:#111;transform:translateY(100%);transition:transform .35s cubic-bezier(.2,.8,.2,1);overflow-y:auto;overscroll-behavior:contain}
+body.np #np{transform:none}
+#np::before{content:"";position:fixed;inset:-60px;background:var(--art) center/cover no-repeat;filter:blur(60px) saturate(1.4) brightness(.55);z-index:-1}
+#np::after{content:"";position:fixed;inset:0;background:linear-gradient(rgba(0,0,0,.15),rgba(0,0,0,.65));z-index:-1}
+.npin{max-width:420px;margin:0 auto;padding:calc(env(safe-area-inset-top) + 8px) 24px calc(env(safe-area-inset-bottom) + 30px)}
+.grab{display:flex;justify-content:center;height:40px;align-items:center;width:100%}
+.grab span{width:40px;height:5px;border-radius:3px;background:rgba(255,255,255,.4)}
+.spacer{height:calc(var(--vs) + 28px)}
+.nprow{display:flex;align-items:center;gap:8px}
+.nprow .mm{flex:1}
+.npt{font-size:21px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.npc{font-size:17px;color:rgba(255,255,255,.65);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.npbtn{background:rgba(255,255,255,.12);width:36px;height:36px}
+.npbtn svg{width:20px;height:20px}
+.npbtn.lit{color:var(--acc)}
+.seek{margin-top:18px}
+.seek input{width:100%;accent-color:#fff;height:20px;margin:0}
+.tm{display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,.6);font-variant-numeric:tabular-nums}
+.ctl{display:flex;align-items:center;justify-content:space-between;margin:10px 0 6px}
+.ctl .icon svg{width:34px;height:34px}
+.ctl .big{width:72px;height:72px}
+.ctl .big svg{width:52px;height:52px}
+.ctl .sm svg{width:22px;height:22px;color:rgba(255,255,255,.6)}
+.ctl .sm.lit svg{color:var(--acc)}
+.ctl .sm{position:relative}
+.one{position:absolute;right:6px;top:6px;font-size:10px;font-weight:800;color:var(--acc)}
+.upnext{margin-top:22px}
+.upnext h3{margin:0 0 6px;font-size:17px}
+.upnext .row .meta{border-color:rgba(255,255,255,.12)}
+.upnext .c{color:rgba(255,255,255,.55)}
+
+/* action sheet / dialogs */
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:60;display:none;align-items:flex-end;justify-content:center}
 .scrim.show{display:flex}
-.sheet{background:var(--bg);width:100%;max-width:520px;border-radius:22px 22px 0 0;padding:20px 18px calc(env(safe-area-inset-bottom) + 20px);max-height:85vh;overflow:auto}
-.sheet h3{margin:0 0 10px;font-size:22px}
-.sheet .opt{width:100%;text-align:left;padding:14px;border-radius:12px;border:1px solid var(--line);background:var(--card);margin-bottom:8px;font-weight:500}
-.sheet input,.sheet textarea{width:100%;height:48px;border-radius:12px;border:1px solid var(--line);background:var(--card);padding:0 14px;font-size:16px;margin:6px 0 12px}
-.sheet textarea{height:120px;padding:12px;font-size:13px}
-.sheet .bar{justify-content:flex-end}
-.toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top) + 16px);transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;z-index:30;font-weight:500;opacity:0;transition:opacity .2s;pointer-events:none;white-space:nowrap}
+.sheet{width:100%;max-width:440px;padding:8px 8px calc(env(safe-area-inset-bottom) + 8px);max-height:88vh;overflow:auto}
+.grp{background:rgba(44,44,46,.96);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);border-radius:14px;overflow:hidden;margin-bottom:8px}
+.grp .hd{padding:14px 16px;text-align:center;color:var(--mute);font-size:13px;border-bottom:.5px solid var(--sep)}
+.grp .hd b{display:block;color:var(--ink);font-size:15px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.grp button.o{width:100%;min-height:56px;font-size:19px;color:var(--acc);border-bottom:.5px solid var(--sep);padding:0 16px}
+.grp button.o:last-child{border-bottom:0}
+.grp button.o.red{color:#ff453a}
+.grp button.o.bold{font-weight:600}
+.form{padding:16px}
+.form h3{margin:0 0 8px;font-size:20px}
+.form label{font-size:14px;color:var(--mute)}
+.form input,.form textarea{width:100%;height:46px;border-radius:10px;border:0;background:var(--card);padding:0 12px;font-size:16px;margin:6px 0 10px;outline:0}
+.form textarea{height:96px;padding:10px;font-size:13px}
+.brow{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
+.btn{height:44px;padding:0 18px;border-radius:12px;background:var(--acc);color:#fff;font-weight:600;font-size:16px;display:inline-grid;place-items:center}
+.btn.ghost{background:var(--card2);color:var(--ink)}
+.toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top) + 12px);transform:translateX(-50%);background:rgba(44,44,46,.96);padding:10px 18px;border-radius:999px;z-index:80;font-size:15px;font-weight:500;opacity:0;transition:opacity .2s;pointer-events:none;white-space:nowrap}
 .toast.show{opacity:1}
-@media (prefers-reduced-motion:reduce){.toast{transition:none}}
+@media (prefers-reduced-motion:reduce){#np,#vbox,.toast{transition:none}}
+@media (min-width:700px){main,header{max-width:760px;margin:0 auto}}
 </style>
 </head>
 <body>
 <header>
-  <div class="top">
-    <h1>Tune<span>box</span></h1>
-    <button class="icon" id="settings-btn" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
-  </div>
-  <form class="search" id="search-form" autocomplete="off">
-    <input id="q" type="search" placeholder="Search songs or paste a YouTube link" enterkeyhint="search">
-    <button class="btn" type="submit">Search</button>
-  </form>
+  <div class="hrow"><h1 id="title">Search</h1><button class="icon hbtn" id="gear" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.8 1.2V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-2.9-1.2l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.7 1.7 0 0 0 3.1 14H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.2-2.9l-.1-.1A2 2 0 1 1 7 4.2l.1.1A1.7 1.7 0 0 0 10 3.1V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 2.9 1.2l.1-.1A2 2 0 1 1 19.8 7l-.1.1a1.7 1.7 0 0 0 1.2 2.9H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></div>
+  <form class="sbox" id="sform" autocomplete="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" type="search" placeholder="Songs, artists, or a YouTube link" enterkeyhint="search"></form>
 </header>
 
 <main id="view"></main>
 
-<div id="player-wrap">
-  <div class="vid"><div id="yt"></div></div>
-  <div class="pctl">
-    <div style="display:flex;align-items:center;gap:8px">
-      <div style="flex:1;overflow:hidden"><div class="now" id="now-t">Nothing playing</div><div class="nowc" id="now-c"></div></div>
-      <button class="icon" id="now-fav" aria-label="Favorite"></button>
-      <button class="icon" id="mini-btn" aria-label="Shrink player"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button>
-    </div>
-    <div class="time"><span id="t-cur">0:00</span><input type="range" id="seek" min="0" max="100" value="0" step="1" aria-label="Seek"><span id="t-dur">0:00</span></div>
-    <div class="ctl">
-      <button class="icon side" id="shuf" aria-label="Shuffle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg></button>
-      <button class="icon" id="prev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg></button>
-      <button class="icon big" id="play" aria-label="Play or pause"></button>
-      <button class="icon" id="next" aria-label="Next"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg></button>
-      <button class="icon side" id="rep" aria-label="Repeat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m17 2 4 4-4 4"/><path d="M3 11V9a3 3 0 0 1 3-3h15M7 22l-4-4 4-4"/><path d="M21 13v2a3 3 0 0 1-3 3H3"/></svg><span class="badge" id="rep-one"></span></button>
-    </div>
-  </div>
+<div id="mini">
+  <img id="m-img" alt="">
+  <div class="mm" id="m-open"><div class="t" id="m-t"></div><div class="c" id="m-c"></div></div>
+  <button class="icon" id="m-play" aria-label="Play or pause"></button>
+  <button class="icon" id="m-next" aria-label="Next"></button>
 </div>
 
+<div id="vbox"><div id="yt"></div></div>
+
+<section id="np" aria-label="Now playing">
+  <div class="npin">
+    <button class="grab" id="np-close" aria-label="Close now playing"><span></span></button>
+    <div class="spacer"></div>
+    <div class="nprow">
+      <div class="mm"><div class="npt" id="np-t"></div><div class="npc" id="np-c"></div></div>
+      <button class="icon npbtn" id="np-fav" aria-label="Favorite"></button>
+      <button class="icon npbtn" id="np-more" aria-label="More"></button>
+    </div>
+    <div class="seek"><input type="range" id="seek" min="0" max="100" value="0" step="1" aria-label="Seek"><div class="tm"><span id="t-cur">0:00</span><span id="t-left">-0:00</span></div></div>
+    <div class="ctl">
+      <button class="icon sm" id="shuf" aria-label="Shuffle"></button>
+      <button class="icon" id="prev" aria-label="Previous"></button>
+      <button class="icon big" id="play" aria-label="Play or pause"></button>
+      <button class="icon" id="next" aria-label="Next"></button>
+      <button class="icon sm" id="rep" aria-label="Repeat"></button>
+    </div>
+    <div class="upnext" id="upnext"></div>
+  </div>
+</section>
+
 <nav class="tabs" role="tablist">
-  <button role="tab" data-tab="search" aria-selected="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>Search</button>
-  <button role="tab" data-tab="favs" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>Favorites</button>
-  <button role="tab" data-tab="lists" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h13M3 12h13M3 18h8"/><circle cx="18" cy="17" r="3"/><path d="M21 17V5"/></svg>Playlists</button>
+  <button role="tab" data-tab="search" aria-selected="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Search</button>
+  <button role="tab" data-tab="favs" aria-selected="false"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.6-9.4C1 8.2 3.2 4.5 7 4.5c2.1 0 3.6 1.1 5 2.9 1.4-1.8 2.9-2.9 5-2.9 3.8 0 6 3.7 4.6 7.1C19.5 16.4 12 21 12 21z"/></svg>Favorites</button>
+  <button role="tab" data-tab="lists" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 6h12M3 12h12M3 18h7"/><circle cx="17.5" cy="17.5" r="2.5"/><path d="M20 17.5V5l2 1"/></svg>Playlists</button>
 </nav>
 
 <div class="scrim" id="scrim"><div class="sheet" id="sheet"></div></div>
 <div class="toast" id="toast"></div>
 
 <script>
+/* Paste your YouTube API key between the quotes below. It is used when no key is saved in Settings. */
+const BUILT_IN_KEY = 'AIzaSyDAwWNra-NBGb03Vw1jG__VPWmQ7nCGaI8';
 {
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const I = {
-  heart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>',
-  heartF:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>',
-  plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>',
-  x:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>',
-  play:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>',
-  pause:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>',
-  up:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 15-6-6-6 6"/></svg>',
-  down:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>'
+  play:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.4-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg>',
+  pause:'<svg viewBox="0 0 24 24" fill="currentColor"><rect x="5.5" y="4" width="4.5" height="16" rx="1.2"/><rect x="14" y="4" width="4.5" height="16" rx="1.2"/></svg>',
+  next:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.5 6.2v11.6c0 .8.9 1.3 1.6.8L12 13v4.8c0 .8.9 1.3 1.6.8l8.4-5.8c.6-.4.6-1.2 0-1.6l-8.4-5.8c-.7-.5-1.6 0-1.6.8V11L4.1 5.4c-.7-.5-1.6 0-1.6.8z"/></svg>',
+  prev:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.5 6.2v11.6c0 .8-.9 1.3-1.6.8L12 13v4.8c0 .8-.9 1.3-1.6.8L2 12.8c-.6-.4-.6-1.2 0-1.6l8.4-5.8c.7-.5 1.6 0 1.6.8V11l7.9-5.6c.7-.5 1.6 0 1.6.8z"/></svg>',
+  heart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20.5s-7.5-4.6-9.6-9.4C1 7.7 3.2 4 7 4c2.1 0 3.6 1.1 5 2.9C13.4 5.1 14.9 4 17 4c3.8 0 6 3.7 4.6 7.1-2.1 4.8-9.6 9.4-9.6 9.4z"/></svg>',
+  heartF:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 20.5s-7.5-4.6-9.6-9.4C1 7.7 3.2 4 7 4c2.1 0 3.6 1.1 5 2.9C13.4 5.1 14.9 4 17 4c3.8 0 6 3.7 4.6 7.1-2.1 4.8-9.6 9.4-9.6 9.4z"/></svg>',
+  dots:'<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>',
+  shuf:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>',
+  rep:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m17 2 4 4-4 4"/><path d="M3 11V9a3 3 0 0 1 3-3h15M7 22l-4-4 4-4"/><path d="M21 13v2a3 3 0 0 1-3 3H3"/></svg>',
+  note:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 18.5a3 3 0 1 1-2-2.83V5.6a1 1 0 0 1 .77-.97l10-2.4A1 1 0 0 1 19 3.2v12.3a3 3 0 1 1-2-2.83V7.1l-8 1.9z"/></svg>',
+  plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+  back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m15 5-7 7 7 7"/></svg>'
 };
 
 /* ---------- storage ---------- */
 const KEY = 'tunebox.v1';
-let db = { apiKey:'', songs:{}, favs:[], lists:[] };
+let db = { apiKey:'', songs:{}, favs:[], lists:[], recent:[] };
 try { const s = JSON.parse(localStorage.getItem(KEY)); if (s) db = Object.assign(db, s); } catch(e) {}
+if (!Array.isArray(db.recent)) db.recent = [];
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(db)); } catch(e) { toast('Could not save on this device'); } };
-const remember = s => { const old = db.songs[s.id] || {}; db.songs[s.id] = { id:s.id, title:s.title || old.title || 'YouTube video', channel:s.channel || old.channel || '' }; };
-const song = id => db.songs[id] || { id, title:'YouTube video', channel:'' };
-const thumb = id => `https://i.ytimg.com/vi/${id}/mqdefault.jpg`;
+const PLACE = 'YouTube video';
+const remember = s => { const o = db.songs[s.id] || {}; db.songs[s.id] = { id:s.id, title:s.title || o.title || PLACE, channel:s.channel || o.channel || '' }; };
+const song = id => db.songs[id] || { id, title:PLACE, channel:'' };
+const thumb = (id, q='mqdefault') => `https://i.ytimg.com/vi/${id}/${q}.jpg`;
 const isFav = id => db.favs.includes(id);
 
-let tab = 'search', results = [], openList = null, searchNote = '';
-let queue = [], qi = -1, shuffle = false, repeat = 0; // 0 off, 1 all, 2 one
-let player = null, ready = false, pendingId = null, playing = false;
+const apiKey = () => db.apiKey || BUILT_IN_KEY;
+let tab = 'search', results = [], openList = null, note = '';
+let queue = [], qi = -1, shuffle = false, repeat = 0;
+let player = null, ready = false, pending = null, playing = false;
 
-function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('show'); clearTimeout(toast.h); toast.h=setTimeout(()=>t.classList.remove('show'),1800); }
+function toast(m){ const t = $('#toast'); t.textContent = m; t.classList.add('show'); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('show'), 1700); }
 
-/* ---------- rendering ---------- */
-function rowHTML(id, ctx, idx){
-  const s = song(id), on = queue[qi] === id;
-  return `<li class="row${on?' on':''}" data-id="${esc(id)}">
+/* ---------- views ---------- */
+function row(id, ctx, i){
+  const s = song(id), f = isFav(id);
+  return `<li class="row${queue[qi]===id?' on':''}" data-id="${esc(id)}">
     <img src="${thumb(id)}" alt="" loading="lazy">
-    <div class="meta" data-act="play" data-ctx="${ctx}" data-i="${idx}"><div class="t">${esc(s.title)}</div><div class="c">${esc(s.channel)}</div></div>
-    <button class="icon${isFav(id)?' fav':''}" data-act="fav" aria-label="Favorite">${isFav(id)?I.heartF:I.heart}</button>
-    ${ctx==='list' ? `<button class="icon" data-act="more" data-i="${idx}" aria-label="Song options">${I.down}</button>` : `<button class="icon" data-act="add" aria-label="Add to playlist">${I.plus}</button>`}
-  </li>`;
+    <div class="meta" data-act="play" data-ctx="${ctx}" data-i="${i}"><div class="t">${esc(s.title)}</div><div class="c">${esc(s.channel)}</div></div>
+    <button class="icon${f?' fav':''}" data-act="fav" aria-label="${f?'Remove from':'Add to'} favorites">${f?I.heartF:I.heart}</button>
+    <button class="icon" data-act="more" data-ctx="${ctx}" data-i="${i}" aria-label="More options">${I.dots}</button></li>`;
 }
+const pills = src => `<div class="pills"><button class="pill" data-act="playall" data-src="${src}">${I.play}Play</button><button class="pill" data-act="shuffleall" data-src="${src}">${I.shuf}Shuffle</button></div>`;
 
 function render(){
   document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === tab));
+  $('#title').textContent = tab === 'search' ? 'Search' : tab === 'favs' ? 'Favorites' : 'Playlists';
+  $('#sform').style.display = tab === 'search' ? '' : 'none';
   const v = $('#view');
   if (tab === 'search') {
-    v.innerHTML = results.length
-      ? `<h2>Results</h2>${searchNote?`<p class="note">${esc(searchNote)}</p>`:''}<ul class="list">${results.map((id,i)=>rowHTML(id,'search',i)).join('')}</ul>`
-      : `<div class="empty"><b>Find something to play</b>${db.apiKey ? 'Type a song or artist above.' : 'Paste a YouTube link above, or add a free YouTube API key in Settings to search by name.'}${searchNote?`<p class="note">${esc(searchNote)}</p>`:''}</div>`;
+    if (results.length) v.innerHTML = `<h2>Results</h2>${note?`<p class="note">${esc(note)}</p>`:''}<ul class="list">${results.map((id,i)=>row(id,'search',i)).join('')}</ul>`;
+    else if (db.recent.length) v.innerHTML = `${note?`<p class="note">${esc(note)}</p>`:''}<h2>Recently played</h2><ul class="list">${db.recent.map((id,i)=>row(id,'recent',i)).join('')}</ul>`;
+    else v.innerHTML = `<div class="empty"><b>Find something to play</b>${apiKey()?'Search for a song or artist above.':'Paste a YouTube link above, or add your YouTube API key in Settings (gear icon) to search by name.'}${note?`<p class="note">${esc(note)}</p>`:''}</div>`;
   } else if (tab === 'favs') {
-    v.innerHTML = db.favs.length
-      ? `<h2>Favorites</h2><div class="bar"><button class="btn sm" data-act="playall" data-src="favs">Play all</button><button class="btn sm ghost" data-act="shuffleall" data-src="favs">Shuffle</button></div><ul class="list">${db.favs.map((id,i)=>rowHTML(id,'favs',i)).join('')}</ul>`
-      : `<div class="empty"><b>No favorites yet</b>Tap the heart on any song.</div>`;
+    v.innerHTML = db.favs.length ? `${pills('favs')}<ul class="list">${db.favs.map((id,i)=>row(id,'favs',i)).join('')}</ul>`
+      : `<div class="empty"><b>No favorites yet</b>Tap the heart next to any song.</div>`;
   } else if (openList) {
     const p = db.lists.find(l => l.id === openList);
     if (!p) { openList = null; return render(); }
-    v.innerHTML = `<h2>${esc(p.name)}</h2><p class="note">${p.songs.length} song${p.songs.length===1?'':'s'}</p>
-      <div class="bar"><button class="btn sm" data-act="playall" data-src="list">Play all</button><button class="btn sm ghost" data-act="shuffleall" data-src="list">Shuffle</button><button class="btn sm ghost" data-act="rename">Rename</button><button class="btn sm ghost" data-act="dellist">Delete</button><button class="btn sm ghost" data-act="back">Back</button></div>
-      ${p.songs.length ? `<ul class="list">${p.songs.map((id,i)=>rowHTML(id,'list',i)).join('')}</ul>` : `<div class="empty"><b>Empty playlist</b>Search for songs and tap + to add them here.</div>`}`;
+    v.innerHTML = `<button class="back" data-act="back">${I.back}Playlists</button>
+      <div class="phead"><div class="art">${p.songs[0]?`<img src="${thumb(p.songs[0],'hqdefault')}" alt="">`:''}</div><h2>${esc(p.name)}</h2><p class="note">${p.songs.length} song${p.songs.length===1?'':'s'} · <button style="color:var(--acc)" data-act="plmenu">Edit</button></p></div>
+      ${p.songs.length ? pills('list') + `<ul class="list">${p.songs.map((id,i)=>row(id,'list',i)).join('')}</ul>` : `<div class="empty"><b>Empty playlist</b>Search for songs, tap ••• and choose “Add to playlist”.</div>`}`;
   } else {
-    v.innerHTML = `<h2>Playlists</h2><div class="bar"><button class="btn sm" data-act="newlist">New playlist</button></div>
-      ${db.lists.length ? db.lists.map(l => `<div class="pl" data-act="openlist" data-lid="${l.id}"><div class="art">${l.songs[0]?`<img src="${thumb(l.songs[0])}" alt="">`:esc(l.name[0]||'♪')}</div><div class="meta"><div class="t" style="font-weight:700">${esc(l.name)}</div><div class="c" style="color:var(--mute);font-size:13px">${l.songs.length} songs</div></div></div>`).join('')
-      : `<div class="empty"><b>No playlists yet</b>Create one, then add songs with the + button.</div>`}`;
+    v.innerHTML = `<div class="grid"><div class="tile new" data-act="newlist"><div class="art">${I.plus}</div><div class="t">New Playlist</div></div>
+      ${db.lists.map(l => `<div class="tile" data-act="openlist" data-lid="${l.id}"><div class="art">${l.songs[0]?`<img src="${thumb(l.songs[0],'hqdefault')}" alt="" loading="lazy">`:I.note}</div><div class="t">${esc(l.name)}</div><div class="c">${l.songs.length} songs</div></div>`).join('')}</div>`;
   }
   renderNow();
 }
 
 function renderNow(){
-  const id = queue[qi];
-  if (id) { const s = song(id); $('#now-t').textContent = s.title; $('#now-c').textContent = s.channel; }
-  $('#now-fav').innerHTML = id && isFav(id) ? I.heartF : I.heart;
-  $('#now-fav').style.color = id && isFav(id) ? 'var(--acc)' : '';
-  $('#play').innerHTML = playing ? I.pause : I.play;
-  $('#shuf').classList.toggle('lit', shuffle);
-  $('#rep').classList.toggle('lit', repeat > 0);
-  $('#rep-one').textContent = repeat === 2 ? '1' : '';
+  const id = queue[qi], has = !!id;
+  document.body.classList.toggle('has-song', has);
+  const ic = playing ? I.pause : I.play;
+  $('#play').innerHTML = ic; $('#m-play').innerHTML = ic;
+  $('#shuf').classList.toggle('lit', shuffle); $('#rep').classList.toggle('lit', repeat > 0);
+  $('#rep').innerHTML = I.rep + (repeat === 2 ? '<span class="one">1</span>' : '');
+  if (!has) return;
+  const s = song(id), f = isFav(id);
+  $('#m-img').src = thumb(id); $('#m-t').textContent = s.title; $('#m-c').textContent = s.channel;
+  $('#np-t').textContent = s.title; $('#np-c').textContent = s.channel;
+  $('#np-fav').innerHTML = f ? I.heartF : I.heart; $('#np-fav').classList.toggle('lit', f);
+  $('#np').style.setProperty('--art', `url("${thumb(id,'hqdefault')}")`);
+  const up = queue.slice(qi + 1, qi + 21);
+  $('#upnext').innerHTML = up.length ? `<h3>Up next</h3><ul class="list">${up.map((u,k)=>`<li class="row" data-id="${esc(u)}"><img src="${thumb(u)}" alt="" loading="lazy"><div class="meta" data-act="jump" data-i="${qi+1+k}"><div class="t">${esc(song(u).title)}</div><div class="c">${esc(song(u).channel)}</div></div></li>`).join('')}</ul>` : '';
 }
 
 /* ---------- sheets ---------- */
-function sheet(html){ $('#sheet').innerHTML = html; $('#scrim').classList.add('show'); }
-function closeSheet(){ $('#scrim').classList.remove('show'); }
-$('#scrim').addEventListener('click', e => { if (e.target.id === 'scrim') closeSheet(); });
-
+const scrim = $('#scrim');
+function sheet(html){ $('#sheet').innerHTML = html; scrim.classList.add('show'); }
+function closeSheet(){ scrim.classList.remove('show'); }
+scrim.addEventListener('click', e => { if (e.target === scrim) closeSheet(); });
+function actions(head, opts){
+  sheet(`<div class="grp"><div class="hd">${head}</div>${opts.map((o,k)=>`<button class="o${o.cls?' '+o.cls:''}" data-k="${k}">${esc(o.label)}</button>`).join('')}</div><div class="grp"><button class="o bold" data-k="x">Cancel</button></div>`);
+  $('#sheet').querySelectorAll('button.o').forEach(b => b.onclick = () => { closeSheet(); const o = opts[b.dataset.k]; if (o) o.run(); });
+}
 function askName(title, value, done){
-  sheet(`<h3>${esc(title)}</h3><form id="nf"><input id="nm" value="${esc(value)}" placeholder="Playlist name" maxlength="60"><div class="bar"><button type="button" class="btn ghost" id="nc">Cancel</button><button class="btn">Save</button></div></form>`);
-  const inp = $('#nm'); inp.focus();
-  $('#nc').onclick = closeSheet;
-  $('#nf').onsubmit = e => { e.preventDefault(); const n = inp.value.trim(); if (!n) return; closeSheet(); done(n); };
+  sheet(`<div class="grp form"><h3>${esc(title)}</h3><form id="nf"><input id="nm" value="${esc(value)}" placeholder="Playlist name" maxlength="60"><div class="brow"><button type="button" class="btn ghost" id="nc">Cancel</button><button class="btn">Save</button></div></form></div>`);
+  $('#nm').focus(); $('#nc').onclick = closeSheet;
+  $('#nf').onsubmit = e => { e.preventDefault(); const n = $('#nm').value.trim(); if (!n) return; closeSheet(); done(n); };
 }
-
-function newList(name, firstId){
-  const l = { id: 'p' + Date.now().toString(36), name, songs: firstId ? [firstId] : [] };
-  db.lists.push(l); save(); return l;
+const newList = (name, first) => { const l = { id:'p'+Date.now().toString(36), name, songs:first?[first]:[] }; db.lists.push(l); save(); return l; };
+function addTo(id){
+  actions(`<b>Add to playlist</b>${esc(song(id).title)}`, [
+    ...db.lists.map(l => ({ label: l.name + (l.songs.includes(id) ? '  ✓' : ''), run(){ if (!l.songs.includes(id)) { l.songs.push(id); save(); toast('Added to ' + l.name); render(); } else toast('Already in ' + l.name); } })),
+    { label:'New Playlist…', cls:'bold', run(){ askName('New Playlist', '', n => { newList(n, id); toast('Added to ' + n); render(); }); } }
+  ]);
 }
-
-function addToListSheet(id){
-  const s = song(id);
-  sheet(`<h3>Add to playlist</h3><p class="note">${esc(s.title)}</p>
-    ${db.lists.map(l => `<button class="opt" data-lid="${l.id}">${esc(l.name)} <span style="color:var(--mute)">· ${l.songs.length}</span>${l.songs.includes(id)?' <span style="color:var(--acc)">✓ added</span>':''}</button>`).join('')}
-    <button class="opt" id="mk" style="color:var(--acc)">+ New playlist</button>`);
-  $('#sheet').querySelectorAll('[data-lid]').forEach(b => b.onclick = () => {
-    const l = db.lists.find(x => x.id === b.dataset.lid);
-    if (!l.songs.includes(id)) { l.songs.push(id); save(); toast('Added to ' + l.name); } else toast('Already in ' + l.name);
-    closeSheet(); render();
-  });
-  $('#mk').onclick = () => askName('New playlist', '', n => { newList(n, id); toast('Added to ' + n); render(); });
+function songMenu(id, ctx, i){
+  const s = song(id), opts = [
+    { label:'Play Next', run(){ queueAdd(id, true); } },
+    { label:'Add to Queue', run(){ queueAdd(id, false); } },
+    { label: isFav(id) ? 'Remove from Favorites' : 'Add to Favorites', run(){ toggleFav(id); } },
+    { label:'Add to Playlist…', run(){ addTo(id); } }
+  ];
+  if (ctx === 'list') {
+    const p = db.lists.find(l => l.id === openList);
+    const mv = d => { const j = i + d; if (j < 0 || j >= p.songs.length) return; [p.songs[i], p.songs[j]] = [p.songs[j], p.songs[i]]; save(); render(); };
+    opts.push({ label:'Move Up', run(){ mv(-1); } }, { label:'Move Down', run(){ mv(1); } }, { label:'Remove from Playlist', cls:'red', run(){ p.songs.splice(i,1); save(); render(); } });
+  }
+  actions(`<b>${esc(s.title)}</b>${esc(s.channel)}`, opts);
 }
-
-function songMenu(idx){
-  const p = db.lists.find(l => l.id === openList); const id = p.songs[idx];
-  sheet(`<h3>${esc(song(id).title)}</h3>
-    <button class="opt" id="o-up">Move up</button><button class="opt" id="o-dn">Move down</button>
-    <button class="opt" id="o-add">Add to another playlist</button>
-    <button class="opt" id="o-rm" style="color:var(--acc)">Remove from this playlist</button>`);
-  const mv = d => { const j = idx + d; if (j < 0 || j >= p.songs.length) return closeSheet(); [p.songs[idx], p.songs[j]] = [p.songs[j], p.songs[idx]]; save(); closeSheet(); render(); };
-  $('#o-up').onclick = () => mv(-1); $('#o-dn').onclick = () => mv(1);
-  $('#o-add').onclick = () => addToListSheet(id);
-  $('#o-rm').onclick = () => { p.songs.splice(idx, 1); save(); closeSheet(); render(); };
+function queueAdd(id, nextUp){
+  if (qi < 0) return play([id], 0);
+  if (nextUp) queue.splice(qi + 1, 0, id); else queue.push(id);
+  toast(nextUp ? 'Playing next' : 'Added to queue'); renderNow();
 }
-
 function settings(){
-  sheet(`<h3>Settings</h3>
-    <label for="k" style="font-weight:500">YouTube API key (for search by name)</label>
-    <input id="k" value="${esc(db.apiKey)}" placeholder="AIza…" autocapitalize="off" autocorrect="off" spellcheck="false">
-    <p class="note">Free from Google Cloud Console → enable “YouTube Data API v3” → Credentials → API key. It stays on this phone only.</p>
-    <div class="bar"><button class="btn" id="ks">Save key</button></div>
+  sheet(`<div class="grp form"><h3>Settings</h3>
+    <label for="k">YouTube API key (for search by name)</label>
+    <input id="k" value="${esc(db.apiKey)}" placeholder="${BUILT_IN_KEY ? 'Using the built-in key' : 'Paste your key here (starts with AIza)'}" autocapitalize="off" autocorrect="off" spellcheck="false">
+    <div class="brow"><button class="btn" id="ks">Save key</button></div>
     <h3 style="margin-top:18px">Back up your library</h3>
-    <p class="note">Your favorites and playlists live on this phone. Save a backup now and then.</p>
-    <div class="bar" style="justify-content:flex-start"><button class="btn ghost sm" id="exp">Download backup</button><button class="btn ghost sm" id="cp">Copy backup text</button><label class="btn ghost sm" style="display:inline-grid;place-items:center">Restore from file<input type="file" id="imp" accept=".json,application/json" hidden></label></div>
-    <textarea id="paste" placeholder="…or paste backup text here and tap Restore"></textarea>
-    <div class="bar"><button class="btn ghost" id="pr">Restore</button><button class="btn ghost" id="sc">Close</button></div>`);
+    <p class="note">Favorites and playlists are stored on this device only.</p>
+    <div class="brow" style="justify-content:flex-start"><button class="btn ghost" id="exp">Download</button><button class="btn ghost" id="cp">Copy text</button><label class="btn ghost">Restore file<input type="file" id="imp" accept=".json,application/json" hidden></label></div>
+    <textarea id="paste" placeholder="…or paste backup text here, then tap Restore"></textarea>
+    <div class="brow"><button class="btn ghost" id="pr">Restore</button><button class="btn ghost" id="sc">Done</button></div></div>`);
   $('#ks').onclick = () => { db.apiKey = $('#k').value.trim(); save(); closeSheet(); toast(db.apiKey ? 'Key saved' : 'Key removed'); render(); };
-  const data = () => JSON.stringify({ songs:db.songs, favs:db.favs, lists:db.lists });
+  const data = () => JSON.stringify({ songs:db.songs, favs:db.favs, lists:db.lists, recent:db.recent });
   $('#exp').onclick = () => { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([data()],{type:'application/json'})); a.download = 'tunebox-backup.json'; a.click(); };
   $('#cp').onclick = async () => { try { await navigator.clipboard.writeText(data()); toast('Backup copied'); } catch(e) { $('#paste').value = data(); toast('Copy the text below'); } };
-  const restore = txt => { try { const d = JSON.parse(txt); if (!d || !Array.isArray(d.favs) || !Array.isArray(d.lists)) throw 0; db.songs = d.songs || {}; db.favs = d.favs; db.lists = d.lists; save(); closeSheet(); toast('Library restored'); render(); } catch(e) { toast('That backup could not be read'); } };
+  const restore = txt => { try { const d = JSON.parse(txt); if (!d || !Array.isArray(d.favs) || !Array.isArray(d.lists)) throw 0; db.songs = d.songs || {}; db.favs = d.favs; db.lists = d.lists; db.recent = d.recent || []; save(); closeSheet(); toast('Library restored'); render(); } catch(e) { toast('That backup could not be read'); } };
   $('#imp').onchange = e => { const f = e.target.files[0]; if (f) f.text().then(restore); };
   $('#pr').onclick = () => restore($('#paste').value);
   $('#sc').onclick = closeSheet;
 }
 
 /* ---------- search ---------- */
-function parseId(s){
-  const m = s.match(/(?:youtu\.be\/|v=|\/shorts\/|\/embed\/|\/live\/)([A-Za-z0-9_-]{11})/);
-  return m ? m[1] : (/^[A-Za-z0-9_-]{11}$/.test(s) ? s : null);
-}
+function parseId(s){ const m = s.match(/(?:youtu\.be\/|v=|\/shorts\/|\/embed\/|\/live\/)([A-Za-z0-9_-]{11})/); return m ? m[1] : (/^[A-Za-z0-9_-]{11}$/.test(s) ? s : null); }
 async function search(q){
-  q = q.trim(); if (!q) return;
-  tab = 'search'; openList = null;
+  q = q.trim(); if (!q) { results = []; note = ''; return render(); }
   const id = parseId(q);
-  if (id) { remember({ id }); results = [id]; searchNote = 'Added from link — the title fills in once it plays.'; render(); play([id], 0); return; }
-  if (!db.apiKey) { searchNote = ''; render(); settings(); toast('Add an API key to search by name'); return; }
-  searchNote = 'Searching…'; results = []; render();
+  if (id) { remember({ id }); results = [id]; note = ''; render(); play([id], 0); return; }
+  if (!apiKey()) { settings(); toast('Add your API key to search by name'); return; }
+  note = 'Searching…'; results = []; render();
   try {
-    const u = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&videoEmbeddable=true&maxResults=25&q=${encodeURIComponent(q)}&key=${encodeURIComponent(db.apiKey)}`;
-    const r = await fetch(u); const j = await r.json();
-    if (j.error) throw new Error(j.error.message);
-    const txt = document.createElement('textarea');
-    const dec = s => (txt.innerHTML = s, txt.value);
-    results = (j.items || []).map(it => { const s = { id: it.id.videoId, title: dec(it.snippet.title), channel: dec(it.snippet.channelTitle) }; remember(s); return s.id; });
-    save(); searchNote = results.length ? '' : 'No results.';
-  } catch(e) { searchNote = 'Search failed: ' + e.message; }
+    const r = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&videoEmbeddable=true&maxResults=25&q=${encodeURIComponent(q)}&key=${encodeURIComponent(apiKey())}`);
+    const j = await r.json(); if (j.error) throw new Error(j.error.message);
+    const ta = document.createElement('textarea'), dec = s => (ta.innerHTML = s, ta.value);
+    results = (j.items || []).map(it => { const s = { id:it.id.videoId, title:dec(it.snippet.title), channel:dec(it.snippet.channelTitle) }; remember(s); return s.id; });
+    save(); note = results.length ? '' : 'No results.';
+  } catch(e) { note = 'Search failed: ' + e.message; }
   render();
 }
-$('#search-form').addEventListener('submit', e => { e.preventDefault(); $('#q').blur(); search($('#q').value); });
+$('#sform').addEventListener('submit', e => { e.preventDefault(); $('#q').blur(); search($('#q').value); });
 
 /* ---------- player ---------- */
 window.onYouTubeIframeAPIReady = () => {
   player = new YT.Player('yt', {
     width:'100%', height:'100%',
-    playerVars:{ playsinline:1, rel:0, modestbranding:1, origin: location.origin },
+    playerVars:{ playsinline:1, rel:0, origin:location.origin },
     events:{
-      onReady:() => { ready = true; if (pendingId) { player.loadVideoById(pendingId); pendingId = null; } },
+      onReady:() => { ready = true; if (pending) { player.loadVideoById(pending); pending = null; } },
       onStateChange: e => {
         playing = e.data === YT.PlayerState.PLAYING;
-        if (playing) { const d = player.getVideoData(); const id = queue[qi]; if (d && id && (!db.songs[id] || db.songs[id].title === 'YouTube video') && d.title) { remember({ id, title:d.title, channel:d.author }); save(); render(); } }
+        if (playing) fillTitle(queue[qi]);
         if (e.data === YT.PlayerState.ENDED) next(true);
         renderNow();
       },
@@ -314,16 +387,22 @@ window.onYouTubeIframeAPIReady = () => {
     }
   });
 };
-const tag = document.createElement('script'); tag.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(tag);
+const yt = document.createElement('script'); yt.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(yt);
 
+function fillTitle(id, tries = 0){
+  if (!id || !player || song(id).title !== PLACE) return;
+  const d = player.getVideoData && player.getVideoData();
+  if (d && d.title && d.video_id === id) { remember({ id, title:d.title, channel:d.author }); save(); render(); }
+  else if (tries < 10) setTimeout(() => fillTitle(id, tries + 1), 700);
+}
 function load(id){
-  $('#player-wrap').classList.add('show');
-  if (ready) player.loadVideoById(id); else pendingId = id;
+  db.recent = [id, ...db.recent.filter(r => r !== id)].slice(0, 30); save();
+  if (ready) player.loadVideoById(id); else pending = id;
   render();
 }
 function play(list, i){
   queue = list.slice(); qi = i;
-  if (shuffle) { const cur = queue.splice(i,1)[0]; queue.sort(() => Math.random() - .5); queue.unshift(cur); qi = 0; }
+  if (shuffle) { const cur = queue.splice(i,1)[0]; for (let k = queue.length - 1; k > 0; k--) { const j = Math.floor(Math.random()*(k+1)); [queue[k],queue[j]] = [queue[j],queue[k]]; } queue.unshift(cur); qi = 0; }
   load(queue[qi]);
 }
 function next(auto){
@@ -339,56 +418,63 @@ function prev(){
   if (ready && player.getCurrentTime() > 3) return player.seekTo(0, true);
   qi = qi > 0 ? qi - 1 : queue.length - 1; load(queue[qi]);
 }
-$('#play').onclick = () => { if (!ready || qi < 0) return; playing ? player.pauseVideo() : player.playVideo(); };
-$('#next').onclick = () => next(false);
+const toggle = () => { if (!ready || qi < 0) return; playing ? player.pauseVideo() : player.playVideo(); };
+$('#play').onclick = toggle; $('#m-play').onclick = toggle;
+$('#next').onclick = () => next(false); $('#m-next').onclick = () => next(false);
+$('#m-next').innerHTML = I.next; $('#next').innerHTML = I.next; $('#prev').innerHTML = I.prev;
+$('#np-more').innerHTML = I.dots; $('#shuf').innerHTML = I.shuf;
 $('#prev').onclick = prev;
 $('#shuf').onclick = () => { shuffle = !shuffle; toast(shuffle ? 'Shuffle on' : 'Shuffle off'); renderNow(); };
 $('#rep').onclick = () => { repeat = (repeat + 1) % 3; toast(['Repeat off','Repeat all','Repeat one'][repeat]); renderNow(); };
-$('#now-fav').onclick = () => { const id = queue[qi]; if (id) toggleFav(id); };
-$('#mini-btn').onclick = () => { const w = $('#player-wrap'); w.classList.toggle('mini'); $('#mini-btn').innerHTML = w.classList.contains('mini') ? I.up : I.down; };
-$('#mini-btn').innerHTML = I.down;
+$('#np-fav').onclick = () => queue[qi] && toggleFav(queue[qi]);
+$('#np-more').onclick = () => queue[qi] && songMenu(queue[qi], 'np', qi);
+const openNP = () => { document.body.classList.add('np'); };
+const closeNP = () => { document.body.classList.remove('np'); };
+$('#m-open').onclick = openNP; $('#m-img').onclick = openNP; $('#np-close').onclick = closeNP;
+$('#upnext').addEventListener('click', e => { const el = e.target.closest('[data-act=jump]'); if (el) { qi = +el.dataset.i; load(queue[qi]); } });
+let sy = null;
+$('#np').addEventListener('touchstart', e => { sy = $('#np').scrollTop <= 0 ? e.touches[0].clientY : null; }, { passive:true });
+$('#np').addEventListener('touchend', e => { if (sy !== null && e.changedTouches[0].clientY - sy > 90) closeNP(); sy = null; });
 
 const fmt = s => { s = Math.max(0, Math.floor(s || 0)); return Math.floor(s/60) + ':' + String(s%60).padStart(2,'0'); };
-let seeking = false;
-const seek = $('#seek');
+const seek = $('#seek'); let seeking = false;
 seek.addEventListener('input', () => { seeking = true; $('#t-cur').textContent = fmt(seek.value); });
 seek.addEventListener('change', () => { if (ready) player.seekTo(+seek.value, true); seeking = false; });
 setInterval(() => {
   if (!ready || seeking || qi < 0 || !player.getDuration) return;
-  const d = player.getDuration(), c = player.getCurrentTime();
+  const d = player.getDuration() || 0, c = player.getCurrentTime() || 0;
   seek.max = Math.max(1, Math.floor(d)); seek.value = Math.floor(c);
-  $('#t-cur').textContent = fmt(c); $('#t-dur').textContent = fmt(d);
+  $('#t-cur').textContent = fmt(c); $('#t-left').textContent = '-' + fmt(d - c);
 }, 500);
 
 /* ---------- actions ---------- */
 function toggleFav(id){
   const i = db.favs.indexOf(id);
-  if (i >= 0) { db.favs.splice(i,1); toast('Removed from favorites'); } else { db.favs.unshift(id); toast('Added to favorites'); }
+  if (i >= 0) { db.favs.splice(i,1); toast('Removed from Favorites'); } else { db.favs.unshift(id); toast('Added to Favorites'); }
   save(); render();
 }
-function srcList(src){ return src === 'favs' ? db.favs : src === 'list' ? (db.lists.find(l => l.id === openList) || {songs:[]}).songs : results; }
+const srcList = s => s === 'favs' ? db.favs : s === 'list' ? (db.lists.find(l => l.id === openList) || {songs:[]}).songs : s === 'recent' ? db.recent : results;
 
 $('#view').addEventListener('click', e => {
   const el = e.target.closest('[data-act]'); if (!el) return;
-  const act = el.dataset.act, row = el.closest('.row'), id = row && row.dataset.id;
-  if (act === 'play') { const ctx = el.dataset.ctx; play(srcList(ctx === 'search' ? 'search' : ctx), +el.dataset.i); }
+  const act = el.dataset.act, r = el.closest('.row'), id = r && r.dataset.id;
+  if (act === 'play') { play(srcList(el.dataset.ctx), +el.dataset.i); openNP(); }
   else if (act === 'fav') toggleFav(id);
-  else if (act === 'add') addToListSheet(id);
-  else if (act === 'more') songMenu(+el.dataset.i);
-  else if (act === 'playall' || act === 'shuffleall') { const l = srcList(el.dataset.src); if (!l.length) return; shuffle = act === 'shuffleall'; play(l, shuffle ? Math.floor(Math.random()*l.length) : 0); }
-  else if (act === 'newlist') askName('New playlist', '', n => { newList(n); render(); });
-  else if (act === 'openlist') { openList = el.dataset.lid; render(); window.scrollTo(0,0); }
+  else if (act === 'more') songMenu(id, el.dataset.ctx, +el.dataset.i);
+  else if (act === 'playall' || act === 'shuffleall') { const l = srcList(el.dataset.src); if (!l.length) return; shuffle = act === 'shuffleall'; play(l, shuffle ? Math.floor(Math.random()*l.length) : 0); openNP(); }
+  else if (act === 'newlist') askName('New Playlist', '', n => { newList(n); render(); });
+  else if (act === 'openlist') { openList = el.dataset.lid; render(); scrollTo(0,0); }
   else if (act === 'back') { openList = null; render(); }
-  else if (act === 'rename') { const p = db.lists.find(l => l.id === openList); askName('Rename playlist', p.name, n => { p.name = n; save(); render(); }); }
-  else if (act === 'dellist') {
+  else if (act === 'plmenu') {
     const p = db.lists.find(l => l.id === openList);
-    sheet(`<h3>Delete “${esc(p.name)}”?</h3><p class="note">The songs stay in your favorites and other playlists.</p><div class="bar"><button class="btn ghost" id="dc">Cancel</button><button class="btn" id="dy">Delete</button></div>`);
-    $('#dc').onclick = closeSheet;
-    $('#dy').onclick = () => { db.lists = db.lists.filter(l => l.id !== p.id); openList = null; save(); closeSheet(); render(); };
+    actions(`<b>${esc(p.name)}</b>Playlist`, [
+      { label:'Rename', run(){ askName('Rename Playlist', p.name, n => { p.name = n; save(); render(); }); } },
+      { label:'Delete Playlist', cls:'red', run(){ actions(`<b>Delete “${esc(p.name)}”?</b>Songs stay in your favorites and other playlists.`, [{ label:'Delete', cls:'red', run(){ db.lists = db.lists.filter(l => l.id !== p.id); openList = null; save(); render(); } }]); } }
+    ]);
   }
 });
-document.querySelectorAll('nav.tabs button').forEach(b => b.onclick = () => { tab = b.dataset.tab; if (tab !== 'lists') openList = null; render(); window.scrollTo(0,0); });
-$('#settings-btn').onclick = settings;
+document.querySelectorAll('nav.tabs button').forEach(b => b.onclick = () => { closeNP(); tab = b.dataset.tab; if (tab !== 'lists') openList = null; render(); scrollTo(0,0); });
+$('#gear').onclick = settings;
 
 render();
 }
